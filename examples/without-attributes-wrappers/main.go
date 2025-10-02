@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/GopherGhaznix/Wave/html"
@@ -11,46 +12,49 @@ import (
 // -----------------------
 func main() {
 
-	root := html.Div(
+	c := context.Background()
+
+	root := html.Div(c,
 		// Attributes
 		html.Attrs{"id": "root", "class": "container"},
 		// Childerns
-		html.H1(
+		html.H1(c,
 			// Attributes
 			html.Attrs{"class": "title"},
 			// Childerns
 			html.Text("Hello Wave 🌊"),
 		),
 
-		html.P(
+		html.P(c,
 			// Attributes
 			html.Attrs{
-				"class": "text-gray-600",
+				"class": "para",
 			},
 			// Childerns
 			html.Text("This is a paragraph inside Wave."),
 		),
 
-		html.Div(
+		html.Div(c,
 			// Attributes
 			html.Attrs{
 				"class": "child",
 			},
 			// Childerns
-			html.Span(nil, html.Text("Nested span text")),
-			html.Em(nil, html.Text("and emphasized text.")),
-			html.Ul(nil,
+			html.Span(c, nil, html.Text("Nested span text")),
+			html.Em(c, nil, html.Text("and emphasized text.")),
+			html.Ul(c,
+				nil,
 				// Childerns
-				html.Li(nil, html.Text("Item 1")),
-				html.Li(nil, html.Text("Item 2")),
-				html.Li(nil, html.A(html.Attrs{"href": "#"}, html.Text("Link inside list"))),
+				html.Li(c, nil, html.Text("Item 1")),
+				html.Li(c, nil, html.Text("Item 2")),
+				html.Li(c, nil, html.A(c, html.Attrs{"href": "#"}, html.Text("Link inside list"))),
 			),
 		),
-		html.Input(
+		html.Input(c,
 			// Attributes
 			html.Attributes(html.Attrs{"id": "name", "type": "text"}),
 		),
-		html.Button(
+		html.Button(c,
 			// Attributes
 			html.Attributes(html.Attrs{"class": "btn-primary-1"}),
 			// Childerns
@@ -58,5 +62,6 @@ func main() {
 		),
 	)
 
-	fmt.Println(root()) // render final HTML
+	// render final HTML
+	fmt.Printf(`<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>\n %s`, root())
 }

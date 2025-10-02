@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/GopherGhaznix/Wave/css"
 	"github.com/GopherGhaznix/Wave/html"
 )
 
@@ -11,43 +12,58 @@ import (
 // -----------------------
 func main() {
 
-	root := html.Div(
+	// default theme context
+	// c := html.WithTheme(
+	// 	context.Background(),
+	// 	html.NewDefaultTheme(),
+	// )
+
+	// custom theme context
+	c := MyCustomTailwindTheme()
+
+	// HTML Stuctrue
+	root := html.Div(c,
 		html.Attributes(
 			// Attributes
 			html.AttrID("root"),
-			html.AttrClass("container"),
+			html.AttrClass("container bg-blue-200"),
+			html.AttrStyle(css.Style{
+				"padding": "30px",
+				"height":  "90vh",
+				"border":  "1px solid #eee",
+			}),
 		),
 		// Childerns
-		html.H1(
+		html.H1(c,
 			// Attributes
 			html.AttrClass("title"),
 			// Childerns
 			html.Text("Hello Wave 🌊"),
 		),
-		html.P(
+		html.P(c,
 			// Attributes
-			html.AttrClass("text-gray-600"),
+			html.AttrClass("para"),
 			// Childerns
 			html.Text("This is a paragraph inside Wave."),
 		),
-		html.Div(
+		html.Div(c,
 			// Attributes
 			html.AttrClass("child"),
 			// Childerns
-			html.Span(nil, html.Text("Nested span text")),
-			html.Em(nil, html.Text("and emphasized text.")),
-			html.Ul(nil,
+			html.Span(c, nil, html.Text("Nested span text")),
+			html.Em(c, nil, html.Text("and emphasized text.")),
+			html.Ul(c, nil,
 				// Childerns
-				html.Li(nil, html.Text("Item 1")),
-				html.Li(nil, html.Text("Item 2")),
-				html.Li(nil, html.A(html.AttrHref("#"), html.Text("Link inside list"))),
+				html.Li(c, nil, html.Text("Item 1")),
+				html.Li(c, nil, html.Text("Item 2")),
+				html.Li(c, nil, html.A(c, html.AttrHref("#"), html.Text("Link inside list"))),
 			),
 		),
-		html.Input(
+		html.Input(c,
 			// Attributes
 			html.Attributes(html.AttrID("name"), html.AttrTypeText()),
 		),
-		html.Button(
+		html.Button(c,
 			// Attributes
 			html.Attributes(html.AttrClass("btn-primary-1")),
 			// Childerns
@@ -55,5 +71,6 @@ func main() {
 		),
 	)
 
-	fmt.Println(root()) // render final HTML
+	// render final HTML
+	fmt.Printf("<script src='https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4'></script>\n %s", root())
 }

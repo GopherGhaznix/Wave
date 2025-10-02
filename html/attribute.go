@@ -1,5 +1,25 @@
 package html
 
+import (
+	"maps"
+
+	"github.com/GopherGhaznix/Wave/css"
+)
+
+// -----------------------
+// Types
+// -----------------------
+type Attrs map[string]string
+
+// Attributes returns a new Attrs map that combines all key-value pairs from the provided maps.
+func Attributes(mapsList ...Attrs) Attrs {
+	merged := Attrs{}
+	for _, m := range mapsList {
+		maps.Copy(merged, m)
+	}
+	return merged
+}
+
 // -----------------------
 // Attribute Wrappers
 // -----------------------
@@ -83,12 +103,14 @@ func AttrPart(value string) Attrs                  { return Attrs{"part": value}
 func AttrPopover(value string) Attrs               { return Attrs{"popover": value} }
 func AttrSlot(value string) Attrs                  { return Attrs{"slot": value} }
 func AttrSpellCheck(value string) Attrs            { return Attrs{"spellcheck": value} }
-func AttrStyle(value string) Attrs                 { return Attrs{"style": value} }
 func AttrTabIndex(value string) Attrs              { return Attrs{"tabindex": value} }
 func AttrTitle(value string) Attrs                 { return Attrs{"title": value} }
 func AttrTranslate(value string) Attrs             { return Attrs{"translate": value} }
 func AttrVirtualKeyboardPolicy(value string) Attrs { return Attrs{"virtualkeyboardpolicy": value} }
 func AttrWritingSuggestions(value string) Attrs    { return Attrs{"writingsuggestions": value} }
+
+// AttrStyle converts a style map into an inline "style" attribute.
+func AttrStyle(styles css.Style) Attrs { return Attrs{"style": styles.Inline()} }
 
 // <script> specific
 func AttrImportMap(value string) Attrs        { return Attrs{"importmap": value} }
